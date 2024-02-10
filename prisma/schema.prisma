@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("NESTJS_DATABASE_URL")
+}
+
+model Admin {
+  id               String    @id @default(uuid())
+  email            String    @unique
+  name             String
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  deleted_at       DateTime?
+  created_payments Payment[]
+}
+
+model Client {
+  id                String     @id @default(uuid())
+  name              String
+  lastname          String
+  phone             String[]
+  physical_address  String
+  reference_address String?
+  payment_day       Int
+  payments          Payment[]
+  ipAddresses       IpAdress[]
+}
+
+// TODO Agregar historial de instalaciones
+
+model Payment {
+  id               String       @id @default(uuid())
+  details          String?
+  Client           Client?      @relation(fields: [client_id], references: [id])
+  client_id        String?
+  sub_payments     SubPayment[]
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+  Receipt          Receipt[]
+  CreatorAdmin     Admin?       @relation(fields: [creator_admin_id], references: [id])
+  creator_admin_id String?
+}
+
+model SubPayment {
+  id         String   @id @default(uuid())
+  start_date DateTime @db.Date
+  end_date   DateTime @db.Date
+  price      Decimal  @db.Money
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Payment    Payment? @relation(fields: [payment_id], references: [id])
+  payment_id String?
+}
+
+model Receipt {
+  id         Int      @id @default(autoincrement())
+  payment    Payment  @relation(fields: [payment_id], references: [id])
+  payment_id String
+  file_url   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model IpAdress {
+  id          Int       @id @default(autoincrement())
+  full_ip     String
+  first_part  Int
+  second_part Int
+  range       Int
+  tail        Int
+  anthena     Anthena   @relation(fields: [anthena_id], references: [id])
+  deleted_at  DateTime?
+  anthena_id  String
+  Client      Client?   @relation(fields: [client_id], references: [id])
+  client_id    String?
+}
+
+model Anthena {
+  id         String     @id @default(uuid())
+  name       String
+  alias      String?
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  deleted_at DateTime?
+  IpAdress   IpAdress[]
+}
