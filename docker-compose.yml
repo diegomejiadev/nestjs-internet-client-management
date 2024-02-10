@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  postgres:
+    image: 'postgres:alpine'
+    environment:
+      - POSTGRES_PASSWORD=${NESTJS_POSTGRES_PASSWORD}
+      - POSTGRES_USER=${NESTJS_POSTGRES_USER}
+      - POSTGRES_DB=${NESTJS_POSTGRES_DB}
+    ports:
+      - ${NESTJS_POSTGRES_PORT}:5432
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+volumes:
+  dbdata:
