@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 export const hashPassword = async (plainPassword: string) => {
   const salt = await bcrypt.genSalt(+process.env.NESTJS_SALT_ROUNDS);
