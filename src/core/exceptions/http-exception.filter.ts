@@ -16,11 +16,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus() || INTERNAL_SERVER_ERROR_CODE;
 
+    const exceptionResponse: any = exception.getResponse();
+
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: request.url,
       message:
+        exceptionResponse?.message ||
         exception.message ||
         exception.getResponse()['message'] ||
         'Internal Server Error',
