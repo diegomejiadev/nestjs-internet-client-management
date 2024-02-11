@@ -39,10 +39,10 @@ model Payment {
   details          String?
   Client           Client?      @relation(fields: [client_id], references: [id])
   client_id        String?
-  sub_payments     SubPayment[]
+  SubPayments      SubPayment[]
   created_at       DateTime     @default(now())
   updated_at       DateTime     @updatedAt
-  Receipt          Receipt[]
+  Receipts         Receipt[]
   CreatorAdmin     Admin?       @relation(fields: [creator_admin_id], references: [id])
   creator_admin_id String?
 }
@@ -51,7 +51,7 @@ model SubPayment {
   id         String   @id @default(uuid())
   start_date DateTime @db.Date
   end_date   DateTime @db.Date
-  price      Decimal  @db.Money
+  amount     Decimal  @db.Decimal(8, 2)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   Payment    Payment? @relation(fields: [payment_id], references: [id])
