@@ -21,15 +21,14 @@ model Admin {
 }
 
 model Client {
-  id                String     @id @default(uuid())
-  name              String
-  lastname          String
-  phone             String[]
-  physical_address  String
-  reference_address String?
-  payment_day       Int
-  payments          Payment[]
-  ipAddresses       IpAdress[]
+  id                  String     @id @default(uuid())
+  full_name           String
+  phone               String[]
+  physical_address    String?
+  reference_addresses String[]
+  payment_day         Int
+  payments            Payment[]
+  ipAddresses         IpAdress[]
 }
 
 // TODO Agregar historial de instalaciones
@@ -78,7 +77,7 @@ model IpAdress {
   deleted_at  DateTime?
   anthena_id  String
   Client      Client?   @relation(fields: [client_id], references: [id])
-  client_id    String?
+  client_id   String?
 }
 
 model Anthena {
