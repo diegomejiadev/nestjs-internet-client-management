@@ -6,6 +6,10 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtAuthGuard } from 'src/core/guards/jwt-auth.guard';
 import { JwtStrategy } from 'src/core/strategies/jwt.strategy';
 import { DatabaseModule } from 'src/database/database.module';
+import { AuthService } from './presentation/services/auth.service';
+import { AuthController } from './presentation/controllers/auth.controller';
+import { SignInEmailUsecase } from './application/usecases/sign-in-email.usecase';
+import { SignUpEmailUsecase } from './application/usecases/sign-up-email.usecase';
 
 @Module({
   imports: [
@@ -32,6 +36,10 @@ import { DatabaseModule } from 'src/database/database.module';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    AuthService,
+    SignInEmailUsecase,
+    SignUpEmailUsecase,
   ],
+  controllers: [AuthController],
 })
 export class AuthModule {}
