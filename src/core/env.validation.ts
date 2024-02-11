@@ -36,6 +36,18 @@ class EnvironmentVariables {
 
   @IsNumber()
   NESTJS_SALT_ROUNDS: number;
+
+  @IsString()
+  NESTJS_AWS_S3_REGION_NAME: string;
+
+  @IsString()
+  NESTJS_AWS_S3_BUCKET_NAME: string;
+
+  @IsString()
+  NESTJS_AWS_S3_IAM_USER_PUBLIC_KEY: string;
+
+  @IsString()
+  NESTJS_AWS_S3_IAM_USER_SECRET_KEY: string;
 }
 
 export function validate(config: Record<string, unknown>) {
