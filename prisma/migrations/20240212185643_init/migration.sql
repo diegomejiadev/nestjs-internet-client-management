@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "SubPayment" ALTER COLUMN "amount" SET DATA TYPE DECIMAL(65,30);

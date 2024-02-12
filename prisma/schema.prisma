@@ -52,7 +52,7 @@ model SubPayment {
   id         String   @id @default(uuid())
   start_date DateTime @db.Date
   end_date   DateTime @db.Date
-  amount     Decimal  @db.Decimal(8, 2)
+  amount     Decimal
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   Payment    Payment? @relation(fields: [payment_id], references: [id])
