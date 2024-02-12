@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, OnModuleInit, Post } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { SignInEmailDto } from '../../domain/dto/sign-in-email.dto';
 import { Public } from 'src/core/decorators/jwt-public.decorator';
@@ -14,7 +14,6 @@ export class AuthController {
     return this.authService.signInEmail(body);
   }
 
-  // @Public()
   @Post('sign-up-email')
   signUpEmail(@Body() body: SignUpEmailDto) {
     return this.authService.signUpEmail(body);
