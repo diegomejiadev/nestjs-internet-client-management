@@ -12,10 +12,11 @@ export class PaymentService {
   ) {}
 
   async createPayment(
+    adminId: string,
     body: CreatePaymentDto,
     files: Express.Multer.File[],
   ): Promise<IResponse<any>> {
-    const data = await this.createPaymentUsecase.handle(body, files);
+    const data = await this.createPaymentUsecase.handle(adminId, body, files);
 
     return { data };
   }

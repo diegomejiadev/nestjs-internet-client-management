@@ -1,21 +1,23 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { AwsS3Service } from 'src/shared/aws-s3/aws-s3.service';
 import { CreatePaymentDto } from '../../domain/dto/create-payment-dto';
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class CreatePaymentUsecase {
   constructor(
+    @Inject(REQUEST) private request: Request,
     private awsS3Service: AwsS3Service,
     private prismaService: PrismaService,
   ) {}
 
-  async handle(body: CreatePaymentDto, files: Express.Multer.File[]) {
-    const ADMIN_ID = 'a137883e-8094-4359-8074-699c27388301';
+  async handle(
+    adminId: string,
+    body: CreatePaymentDto,
+    files: Express.Multer.File[],
+  ) {
     const receiptUrls = [];
 
     //* Convertimos las fechas
@@ -73,10 +75,6 @@ export class CreatePaymentUsecase {
       });
     }
 
-    console.log(toCreateSubPayments);
-
-    // return null;
-
     //* 4. Subimos los archivos
     if (files) {
       const promiseToUploadFiles = files.map((fileItem) =>
@@ -94,7 +92,7 @@ export class CreatePaymentUsecase {
     const createdPayment = await this.prismaService.payment.create({
       data: {
         client_id: body.clientId,
-        creator_admin_id: ADMIN_ID,
+        creator_admin_id: adminId,
         details: body.details || null,
         SubPayments: {
           createMany: {

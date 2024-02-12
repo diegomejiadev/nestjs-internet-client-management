@@ -4,13 +4,15 @@ import {
   Param,
   Patch,
   Post,
+  Request,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { Public } from 'src/core/decorators/jwt-public.decorator';
 import { CreatePaymentDto } from '../../domain/dto/create-payment-dto';
 import { PaymentService } from '../services/payment.service';
+import { ExistsPaymentGuard } from '../guards/exists-payment.guard';
 
 const ONE_MEGABYTE = 1024 * 1024;
 const TWO_MEGABYTES = 2 * ONE_MEGABYTE;
@@ -20,7 +22,6 @@ const TEN_MEGABYTES = 10 * ONE_MEGABYTE;
 export class PaymentController {
   constructor(private paymentService: PaymentService) {}
 
-  @Public()
   @Post('generate')
   @UseInterceptors(
     FileFieldsInterceptor([
@@ -30,17 +31,20 @@ export class PaymentController {
     ]),
   )
   generate(
+    @Request() request: Request,
     @UploadedFiles()
     files: {
       receipts: Express.Multer.File[];
     },
     @Body() body: CreatePaymentDto,
   ) {
-    return this.paymentService.createPayment(body, files.receipts);
+    const adminId = request['user']['userId'];
+
+    return this.paymentService.createPayment(adminId, body, files.receipts);
   }
 
-  @Public()
-  @Patch('upload-receipt/:payment-id')
+  @UseGuards(ExistsPaymentGuard)
+  @Patch('upload-receipt/:paymentId')
   @UseInterceptors(
     FileFieldsInterceptor([
       {
@@ -49,7 +53,7 @@ export class PaymentController {
     ]),
   )
   uploadReceipt(
-    @Param('payment-id') paymentId: string,
+    @Param('paymentId') paymentId: string,
     @UploadedFiles()
     files: {
       receipts: Express.Multer.File[];
