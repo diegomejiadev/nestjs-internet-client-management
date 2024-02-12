@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { AwsS3Service } from 'src/shared/aws-s3/aws-s3.service';
 
@@ -10,6 +10,12 @@ export class UploadReceiptUsecase {
   ) {}
 
   async handle(paymentId: string, files: Express.Multer.File[]) {
+    //* Si no hay archivos lanzamos error
+    if (!files)
+      throw new BadRequestException(
+        'Debe subir al menos una imagen de recibo.',
+      );
+
     const receiptUrls = [];
 
     //* 1. Subimos los archivos
