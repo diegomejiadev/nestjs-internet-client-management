@@ -1,18 +1,13 @@
 import {
   Body,
   Controller,
-  HttpStatus,
-  ParseFilePipeBuilder,
+  Param,
+  Patch,
   Post,
-  UploadedFile,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import {
-  FileFieldsInterceptor,
-  FilesInterceptor,
-} from '@nestjs/platform-express';
-import path from 'path';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { Public } from 'src/core/decorators/jwt-public.decorator';
 import { CreatePaymentDto } from '../../domain/dto/create-payment-dto';
 import { PaymentService } from '../services/payment.service';
@@ -42,5 +37,24 @@ export class PaymentController {
     @Body() body: CreatePaymentDto,
   ) {
     return this.paymentService.createPayment(body, files.receipts);
+  }
+
+  @Public()
+  @Patch('upload-receipt/:payment-id')
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      {
+        name: 'receipts',
+      },
+    ]),
+  )
+  uploadReceipt(
+    @Param('payment-id') paymentId: string,
+    @UploadedFiles()
+    files: {
+      receipts: Express.Multer.File[];
+    },
+  ) {
+    return this.paymentService.uploadReceipt(paymentId, files.receipts);
   }
 }
