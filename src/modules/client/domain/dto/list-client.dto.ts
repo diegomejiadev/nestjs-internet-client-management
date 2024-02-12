@@ -2,7 +2,6 @@ import { Transform, Type } from 'class-transformer';
 import {
   IsBoolean,
   IsDateString,
-  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
@@ -70,14 +69,6 @@ export class ListClientDto extends QueryDto {
   @IsNumber()
   @Type(() => Number)
   monthsWithoutPaying?: number;
-
-  @IsOptional()
-  @IsString()
-  orderAttribute?: string;
-
-  @IsOptional()
-  @IsEnum(Order)
-  order?: Order;
 
   @IsOptional()
   @IsNumber()
