@@ -7,19 +7,27 @@ export class CreateClientUsecase {
   constructor(private prismaService: PrismaService) {}
 
   async handle(body: CreateClientDto) {
-    const { fullName, paymentDay, phone, physicalAddress, referenceAddresses } =
-      body;
+    const {
+      lastName,
+      name,
+      paymentDay,
+      phone,
+      physicalAddress,
+      referenceAddresses,
+    } = body;
 
     const toCreateClient = await this.prismaService.client.create({
       data: {
-        full_name: fullName,
+        last_name: lastName,
+        name: name,
         payment_day: paymentDay,
         phone,
         physical_address: physicalAddress,
         reference_addresses: referenceAddresses,
       },
       select: {
-        full_name: true,
+        last_name: true,
+        name: true,
         id: true,
         payment_day: true,
         phone: true,
