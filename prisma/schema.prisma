@@ -23,7 +23,8 @@ model Admin {
 
 model Client {
   id                  String     @id @default(uuid())
-  full_name           String
+  name                String
+  last_name           String
   phone               String[]
   physical_address    String?
   reference_addresses String[]
