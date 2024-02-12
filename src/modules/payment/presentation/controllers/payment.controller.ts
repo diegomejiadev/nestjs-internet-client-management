@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   Patch,
   Post,
+  Query,
   Request,
   UploadedFiles,
   UseGuards,
@@ -13,6 +15,7 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { CreatePaymentDto } from '../../domain/dto/create-payment-dto';
 import { PaymentService } from '../services/payment.service';
 import { ExistsPaymentGuard } from '../guards/exists-payment.guard';
+import { ListPaymentDto } from '../../domain/dto/list-payment.dto';
 
 const ONE_MEGABYTE = 1024 * 1024;
 const TWO_MEGABYTES = 2 * ONE_MEGABYTE;
@@ -21,6 +24,11 @@ const TEN_MEGABYTES = 10 * ONE_MEGABYTE;
 @Controller('payment')
 export class PaymentController {
   constructor(private paymentService: PaymentService) {}
+
+  @Get()
+  list(@Query() query: ListPaymentDto) {
+    return this.paymentService.listPayments(query);
+  }
 
   @Post('generate')
   @UseInterceptors(

@@ -5,6 +5,7 @@ import { AwsS3Service } from 'src/shared/aws-s3/aws-s3.service';
 import { CreatePaymentUsecase } from './infrastructure/usecases/create-payment.usecase';
 import { DatabaseModule } from 'src/database/database.module';
 import { UploadReceiptUsecase } from './infrastructure/usecases/upload-receipt.usecase';
+import { ListPaymentsUsecase } from './infrastructure/usecases/list-payments.usecase';
 
 @Module({
   imports: [DatabaseModule],
@@ -14,6 +15,7 @@ import { UploadReceiptUsecase } from './infrastructure/usecases/upload-receipt.u
     AwsS3Service,
     CreatePaymentUsecase,
     UploadReceiptUsecase,
+    ListPaymentsUsecase,
   ],
 })
 export class PaymentModule {}
