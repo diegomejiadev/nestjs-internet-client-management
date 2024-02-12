@@ -9,7 +9,11 @@ import {
 export class CreateClientDto {
   @IsNotEmpty()
   @IsString()
-  fullName: string;
+  name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  lastName: string;
 
   @IsOptional()
   @IsArray()

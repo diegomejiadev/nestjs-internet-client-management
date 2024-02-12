@@ -21,6 +21,7 @@ export class CreatePaymentUsecase {
     //* Convertimos las fechas
     body.startDate = new Date(body.startDate);
     body.endDate = new Date(body.endDate);
+    body.endDate.setHours(10);
 
     //* 1. Buscamos que exista el cliente
     const foundClient = await this.prismaService.client.findFirst({
@@ -71,6 +72,10 @@ export class CreatePaymentUsecase {
         end_date: endDate,
       });
     }
+
+    console.log(toCreateSubPayments);
+
+    // return null;
 
     //* 4. Subimos los archivos
     if (files) {
