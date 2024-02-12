@@ -39,7 +39,7 @@ export class UploadReceiptUsecase {
           createMany: {
             data: [
               ...receiptUrls.map((t) => ({
-                file_url: t,
+                fileUrl: t,
               })),
             ],
           },

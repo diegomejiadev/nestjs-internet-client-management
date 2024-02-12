@@ -12,14 +12,14 @@ export class ListClientsUsecase {
     return {
       id: true,
       name: true,
-      last_name: true,
-      payment_day: true,
+      lastName: true,
+      paymentDay: true,
       phone: true,
     };
   }
 
   private getOrderQuery(query: ListClientDto) {
-    return { [query?.orderAttribute || 'last_name']: query.order || 'asc' };
+    return { [query?.orderAttribute || 'lastName']: query.order || 'asc' };
   }
 
   private buildWhereQuery(query: ListClientDto) {
@@ -30,23 +30,23 @@ export class ListClientsUsecase {
     //* El query por defecto
     if (query.name) where.name = { contains: query.name, mode: 'insensitive' };
     if (query.lastName)
-      where.last_name = { contains: query.lastName, mode: 'insensitive' };
+      where.lastName = { contains: query.lastName, mode: 'insensitive' };
     if (query.physicalAddress)
-      where.physical_address = {
+      where.physicalAddress = {
         contains: query.physicalAddress,
         mode: 'insensitive',
       };
     if (query.referenceAddress)
-      where.reference_addresses = { has: query.referenceAddress };
+      where.referenceAddresses = { has: query.referenceAddress };
     if (query.phone) where.phone = { has: query.phone };
-    if (query.paymentDay) where.payment_day = { equals: query.paymentDay };
+    if (query.paymentDay) where.paymentDay = { equals: query.paymentDay };
 
     //* El query anidado de las IPs
     if (query.ipAddress) {
       whereIpAdresses = {
         ...whereIpAdresses,
         some: {
-          full_ip: {
+          fullIp: {
             contains: query.ipAddress,
           },
         },
@@ -100,7 +100,7 @@ export class ListClientsUsecase {
         every: {
           SubPayments: {
             every: {
-              end_date: {
+              endDate: {
                 lte: currentDate,
               },
             },
@@ -118,7 +118,7 @@ export class ListClientsUsecase {
         every: {
           SubPayments: {
             every: {
-              end_date: {
+              endDate: {
                 lte: currentDate,
               },
             },

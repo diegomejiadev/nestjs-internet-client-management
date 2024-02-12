@@ -45,8 +45,8 @@ export class CreatePaymentUsecase {
     //* 3. Establecemos valor para saber si el dia establecido es ultimo dia del mes
     const toCreateSubPayments: {
       amount: number;
-      end_date: Date;
-      start_date: Date;
+      endDate: Date;
+      startDate: Date;
     }[] = [];
 
     //* 3.1. Verificamos si es el ultimo dia del mes
@@ -70,8 +70,8 @@ export class CreatePaymentUsecase {
 
       toCreateSubPayments.push({
         amount: paymentPerMonth,
-        start_date: startDate,
-        end_date: endDate,
+        startDate,
+        endDate,
       });
     }
 
@@ -91,8 +91,8 @@ export class CreatePaymentUsecase {
     //* 5. Creamos el pago
     const createdPayment = await this.prismaService.payment.create({
       data: {
-        client_id: body.clientId,
-        creator_admin_id: adminId,
+        clientId: body.clientId,
+        creatorAdminId: adminId,
         details: body.details || null,
         SubPayments: {
           createMany: {
@@ -103,7 +103,7 @@ export class CreatePaymentUsecase {
           createMany: {
             data: [
               ...receiptUrls.map((t) => ({
-                file_url: t,
+                fileUrl: t,
               })),
             ],
           },

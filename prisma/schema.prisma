@@ -15,79 +15,81 @@ model Admin {
   email            String    @unique
   password         String
   name             String
-  created_at       DateTime  @default(now())
-  updated_at       DateTime  @updatedAt
-  deleted_at       DateTime?
-  created_payments Payment[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
+  createdPayments Payment[]
 }
 
 model Client {
-  id                  String     @id @default(uuid())
-  name                String
-  last_name           String
-  phone               String[]
-  physical_address    String?
-  reference_addresses String[]
-  payment_day         Int
-  payments            Payment[]
-  ipAddresses         IpAdress[]
+  id                 String     @id @default(uuid())
+  name               String
+  lastName           String
+  phone              String[]
+  physicalAddress    String?
+  referenceAddresses String[]
+  paymentDay        Int
+  payments           Payment[]
+  ipAddresses        IpAdress[]
 }
 
 // TODO Agregar historial de instalaciones
 
 model Payment {
-  id               String       @id @default(uuid())
-  details          String?
-  Client           Client?      @relation(fields: [client_id], references: [id])
-  client_id        String?
-  SubPayments      SubPayment[]
-  created_at       DateTime     @default(now())
-  updated_at       DateTime     @updatedAt
-  Receipts         Receipt[]
-  CreatorAdmin     Admin?       @relation(fields: [creator_admin_id], references: [id])
-  creator_admin_id String?
+  id             String       @id @default(uuid())
+  details        String?
+  Client         Client?      @relation(fields: [clientId], references: [id])
+  clientId       String?
+  SubPayments    SubPayment[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  Receipts       Receipt[]
+  CreatorAdmin   Admin?       @relation(fields: [creatorAdminId], references: [id])
+  creatorAdminId String?
 }
 
 model SubPayment {
-  id         String   @id @default(uuid())
-  start_date DateTime @db.Date
-  end_date   DateTime @db.Date
-  amount     Decimal
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  Payment    Payment? @relation(fields: [payment_id], references: [id])
-  payment_id String?
+  id        String   @id @default(uuid())
+  startDate DateTime @db.Date
+  endDate   DateTime @db.Date
+  amount    Decimal
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Payment   Payment? @relation(fields: [paymentId], references: [id])
+  paymentId String?
 }
 
 model Receipt {
-  id         Int      @id @default(autoincrement())
-  payment    Payment  @relation(fields: [payment_id], references: [id])
-  payment_id String
-  file_url   String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  payment   Payment  @relation(fields: [paymentId], references: [id])
+  paymentId String
+  fileUrl   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model IpAdress {
-  id          Int       @id @default(autoincrement())
-  full_ip     String
-  first_part  Int
-  second_part Int
-  range       Int
-  tail        Int
-  anthena     Anthena   @relation(fields: [anthena_id], references: [id])
-  deleted_at  DateTime?
-  anthena_id  String
-  Client      Client?   @relation(fields: [client_id], references: [id])
-  client_id   String?
+  id         Int       @id @default(autoincrement())
+  fullIp     String
+  firstPart  Int
+  secondPart Int
+  range      Int
+  tail       Int
+  anthena    Anthena   @relation(fields: [anthenaId], references: [id])
+  anthenaId  String
+  Client     Client?   @relation(fields: [clientId], references: [id])
+  clientId   String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
 }
 
 model Anthena {
-  id         String     @id @default(uuid())
-  name       String
-  alias      String?
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
-  deleted_at DateTime?
-  IpAdress   IpAdress[]
+  id        String     @id @default(uuid())
+  name      String
+  alias     String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  deletedAt DateTime?
+  IpAdress  IpAdress[]
 }

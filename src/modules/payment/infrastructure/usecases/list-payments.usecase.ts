@@ -16,26 +16,26 @@ export class ListPaymentsUsecase {
       Client: {
         select: {
           id: true,
-          last_name: true,
+          lastName: true,
           name: true,
           phone: true,
         },
       },
       details: true,
-      client_id: true,
+      clientId: true,
       id: true,
       Receipts: {
         select: {
-          file_url: true,
+          fileUrl: true,
           id: true,
         },
       },
       SubPayments: {
         select: {
           amount: true,
-          end_date: true,
+          endDate: true,
           id: true,
-          start_date: true,
+          startDate: true,
         },
       },
     };
@@ -49,12 +49,12 @@ export class ListPaymentsUsecase {
     switch (query.orderAttribute) {
       case PaymentOrderAttributeEnum.CREATED_AT:
         return {
-          created_at: orderType,
+          createdAt: orderType,
         };
 
       case PaymentOrderAttributeEnum.UPDATED_AT:
         return {
-          updated_at: orderType,
+          updatedAt: orderType,
         };
 
       case PaymentOrderAttributeEnum.CLIENT_NAME:
@@ -67,12 +67,12 @@ export class ListPaymentsUsecase {
       case PaymentOrderAttributeEnum.CLIENT_LAST_NAME:
         return {
           Client: {
-            last_name: orderType,
+            lastName: orderType,
           },
         };
 
       default:
-        return { updated_at: orderType };
+        return { updatedAt: orderType };
     }
   }
 
@@ -98,7 +98,7 @@ export class ListPaymentsUsecase {
 
     //* Hacemos el where del cliente
     if (query.clientLastName)
-      whereClient.last_name = {
+      whereClient.lastName = {
         contains: query.clientLastName,
         mode: 'insensitive',
       };
@@ -126,7 +126,7 @@ export class ListPaymentsUsecase {
       whereSubPayments = {
         ...whereSubPayments,
         every: {
-          start_date: {
+          startDate: {
             gte: query.startDate,
           },
         },
@@ -137,7 +137,7 @@ export class ListPaymentsUsecase {
       whereSubPayments = {
         ...whereSubPayments,
         every: {
-          end_date: {
+          endDate: {
             lte: query.endDate,
           },
         },

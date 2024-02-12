@@ -18,21 +18,21 @@ export class CreateClientUsecase {
 
     const toCreateClient = await this.prismaService.client.create({
       data: {
-        last_name: lastName,
+        lastName,
         name: name,
-        payment_day: paymentDay,
+        paymentDay,
         phone,
-        physical_address: physicalAddress,
-        reference_addresses: referenceAddresses,
+        physicalAddress,
+        referenceAddresses,
       },
       select: {
-        last_name: true,
+        lastName: true,
         name: true,
         id: true,
-        payment_day: true,
+        paymentDay: true,
         phone: true,
-        physical_address: true,
-        reference_addresses: true,
+        physicalAddress: true,
+        referenceAddresses: true,
       },
     });
 
