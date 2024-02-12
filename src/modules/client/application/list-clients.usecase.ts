@@ -131,8 +131,6 @@ export class ListClientsUsecase {
   }
 
   async handle(query?: ListClientDto) {
-    console.log(query);
-
     const { where, whereIpAdresses, wherePayments } =
       this.buildWhereQuery(query);
 

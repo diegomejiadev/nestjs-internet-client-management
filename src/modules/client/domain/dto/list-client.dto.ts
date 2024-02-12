@@ -41,7 +41,11 @@ export class ListClientDto extends QueryDto {
 
   @IsOptional()
   @IsBoolean()
-  @Transform(({ value }) => Boolean(value))
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return value;
+  })
   hasMissingReceipts?: boolean;
 
   @IsOptional()
@@ -62,7 +66,11 @@ export class ListClientDto extends QueryDto {
 
   @IsOptional()
   @IsBoolean()
-  @Transform(({ value }) => Boolean(value))
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return value;
+  })
   hasNotPaidCurrentMonth?: boolean;
 
   @IsOptional()
