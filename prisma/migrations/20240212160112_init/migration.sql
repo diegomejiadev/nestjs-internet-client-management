@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Client" ALTER COLUMN "last_name" DROP DEFAULT,
+ALTER COLUMN "name" DROP DEFAULT;
