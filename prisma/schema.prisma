@@ -38,13 +38,13 @@ model Client {
 model Payment {
   id             String       @id @default(uuid())
   details        String?
-  Client         Client?      @relation(fields: [clientId], references: [id])
+  Client         Client?      @relation(fields: [clientId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   clientId       String?
   SubPayments    SubPayment[]
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   Receipts       Receipt[]
-  CreatorAdmin   Admin?       @relation(fields: [creatorAdminId], references: [id])
+  CreatorAdmin   Admin?       @relation(fields: [creatorAdminId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   creatorAdminId String?
 }
 
@@ -52,16 +52,16 @@ model SubPayment {
   id        String   @id @default(uuid())
   startDate DateTime @db.Date
   endDate   DateTime @db.Date
-  amount    Decimal
+  amount    Decimal  @db.Decimal(6, 2)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Payment   Payment? @relation(fields: [paymentId], references: [id])
+  Payment   Payment? @relation(fields: [paymentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   paymentId String?
 }
 
 model Receipt {
   id        Int      @id @default(autoincrement())
-  payment   Payment  @relation(fields: [paymentId], references: [id])
+  payment   Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   paymentId String
   fileUrl   String
   createdAt DateTime @default(now())
@@ -76,7 +76,7 @@ model IpAdress {
   range              Int
   tail               Int
   predecessorAnthena Anthena? @relation("PredecessorAnthena")
-  parentAnthena      Anthena? @relation("ParentAnthena", fields: [parentAnthenaId], references: [id])
+  parentAnthena      Anthena? @relation("ParentAnthena", fields: [parentAnthenaId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   parentAnthenaId    String?
 
   createdAt DateTime  @default(now())
@@ -93,7 +93,7 @@ model Anthena {
   deletedAt DateTime?
 
   mainIpAdressId Int?      @unique
-  mainIpAddress  IpAdress? @relation("PredecessorAnthena", fields: [mainIpAdressId], references: [id])
+  mainIpAddress  IpAdress? @relation("PredecessorAnthena", fields: [mainIpAdressId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
   childrenIpAddresses IpAdress[] @relation("ParentAnthena")
 
