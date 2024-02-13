@@ -47,7 +47,7 @@ model Payment {
   Client         Client?      @relation(fields: [clientId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   clientId       String?
   SubPayments    SubPayment[]
-  isInvalid      Boolean      @default(false)
+  isValid        Boolean      @default(true)
   Receipts       Receipt[]
   CreatorAdmin   Admin?       @relation(fields: [creatorAdminId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   creatorAdminId String?
