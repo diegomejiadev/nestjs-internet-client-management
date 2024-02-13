@@ -28,9 +28,15 @@ model Client {
   phone              String[]
   physicalAddress    String?
   referenceAddresses String[]
+  isActive           Boolean   @default(true)
+  isRetired          Boolean   @default(false)
   paymentDay         Int
   payments           Payment[]
   anthenas           Anthena[]
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@index(fields: [name, lastName])
 }
 
 // TODO Agregar historial de instalaciones
@@ -41,22 +47,26 @@ model Payment {
   Client         Client?      @relation(fields: [clientId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   clientId       String?
   SubPayments    SubPayment[]
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
   Receipts       Receipt[]
   CreatorAdmin   Admin?       @relation(fields: [creatorAdminId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   creatorAdminId String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index(fields: [clientId])
 }
 
 model SubPayment {
-  id        String   @id @default(uuid())
-  startDate DateTime @db.Date
-  endDate   DateTime @db.Date
-  amount    Decimal  @db.Decimal(6, 2)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Payment   Payment? @relation(fields: [paymentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  id        String    @id @default(uuid())
+  startDate DateTime  @db.Date
+  endDate   DateTime  @db.Date
+  amount    Decimal   @db.Decimal(6, 2)
+  Payment   Payment?  @relation(fields: [paymentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   paymentId String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index(fields: [paymentId])
 }
 
 model Receipt {
@@ -66,6 +76,8 @@ model Receipt {
   fileUrl   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index(fields: [paymentId])
 }
 
 model IpAdress {
@@ -81,7 +93,8 @@ model IpAdress {
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+
+  @@index(fields: [fullIp, range, parentAnthenaId])
 }
 
 model Anthena {
@@ -90,7 +103,6 @@ model Anthena {
   alias     String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
 
   mainIpAdressId Int?      @unique
   mainIpAddress  IpAdress? @relation("PredecessorAnthena", fields: [mainIpAdressId], references: [id], onDelete: SetNull, onUpdate: Cascade)
@@ -99,4 +111,6 @@ model Anthena {
 
   Client   Client? @relation(fields: [clientId], references: [id])
   clientId String?
+
+  @@index(fields: [name, mainIpAdressId, clientId])
 }
