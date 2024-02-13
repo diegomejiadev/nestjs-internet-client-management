@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateIpDto } from '../../domain/dto/create-ip.dto';
 import { IpService } from '../services/ip.service';
 import { ListIpDto } from '../../domain/dto/list-ip.dto';
@@ -10,6 +10,11 @@ export class IpController {
   @Post()
   create(@Body() body: CreateIpDto) {
     return this.ipService.createIp(body);
+  }
+
+  @Get(':ipAddressId')
+  getById(@Param('ipAddressId') ipAddressId: number) {
+    return this.ipService.getIpById(ipAddressId);
   }
 
   @Get()

@@ -4,12 +4,14 @@ import { CreateIpDto } from '../../domain/dto/create-ip.dto';
 import { IResponse } from 'src/core/interfaces/response.interface';
 import { ListIpUsecase } from '../../application/list-ip.usecase';
 import { ListIpDto } from '../../domain/dto/list-ip.dto';
+import { GetIpByIdUsecase } from '../../application/get-ip-by-id.usecase';
 
 @Injectable()
 export class IpService {
   constructor(
     private createIpUsecase: CreateIpUsecase,
     private listIpUsecase: ListIpUsecase,
+    private getIpByIdUsecase: GetIpByIdUsecase,
   ) {}
 
   async createIp(body: CreateIpDto): Promise<IResponse<any>> {
@@ -22,5 +24,11 @@ export class IpService {
     const data = await this.listIpUsecase.handle(query);
 
     return { count: data.length, data };
+  }
+
+  async getIpById(ipAddressId: number): Promise<IResponse<any>> {
+    const data = await this.getIpByIdUsecase.handle(ipAddressId);
+
+    return { data };
   }
 }
