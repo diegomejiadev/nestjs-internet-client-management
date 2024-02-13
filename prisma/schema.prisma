@@ -28,7 +28,7 @@ model Client {
   phone              String[]
   physicalAddress    String?
   referenceAddresses String[]
-  isSleeping         Boolean   @default(true)
+  isSleeping         Boolean   @default(false)
   isRetired          Boolean   @default(false)
   paymentDay         Int
   Payments           Payment[]
