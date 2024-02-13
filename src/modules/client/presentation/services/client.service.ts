@@ -21,6 +21,6 @@ export class ClientService {
   async listClients(query?: ListClientDto): Promise<IResponse<any>> {
     const data = await this.listClientsUsecase.handle(query);
 
-    return { data };
+    return { count: data.length, data };
   }
 }

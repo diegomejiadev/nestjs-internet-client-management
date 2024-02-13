@@ -36,6 +36,6 @@ export class PaymentService {
   async listPayments(query?: ListPaymentDto): Promise<IResponse<any>> {
     const data = await this.listPaymentsUsecase.handle(query);
 
-    return { data };
+    return { count: data.length, data };
   }
 }
