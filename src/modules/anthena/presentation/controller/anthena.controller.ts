@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AnthenaService } from '../services/anthena.service';
 import { CreateAnthenaDto } from '../../domain/dto/create-anthena.dto';
 import { ListAnthenaDto } from '../../domain/dto/list-anthena.dto';
@@ -10,6 +10,11 @@ export class AnthenaController {
   @Post()
   create(@Body() body: CreateAnthenaDto) {
     return this.anthenaService.createAnthena(body);
+  }
+
+  @Get(':anthenaId')
+  getById(@Param('anthenaId') anthenaId: string) {
+    return this.anthenaService.getAnthenaById(anthenaId);
   }
 
   @Get()
