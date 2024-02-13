@@ -21,6 +21,12 @@ export class ListPaymentsUsecase {
           phone: true,
         },
       },
+      CreatorAdmin: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
       details: true,
       clientId: true,
       id: true,
