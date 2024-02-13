@@ -5,6 +5,7 @@ import { CreatePaymentUsecase } from '../../infrastructure/usecases/create-payme
 import { UploadReceiptUsecase } from '../../infrastructure/usecases/upload-receipt.usecase';
 import { ListPaymentsUsecase } from '../../infrastructure/usecases/list-payments.usecase';
 import { ListPaymentDto } from '../../domain/dto/list-payment.dto';
+import { GetPaymentByIdUsecase } from '../../infrastructure/usecases/get-payment-by-id.usecase';
 
 @Injectable()
 export class PaymentService {
@@ -12,6 +13,7 @@ export class PaymentService {
     private createPaymentUsecase: CreatePaymentUsecase,
     private uploadReceiptUsecase: UploadReceiptUsecase,
     private listPaymentsUsecase: ListPaymentsUsecase,
+    private getPaymentByIdUsecase: GetPaymentByIdUsecase,
   ) {}
 
   async createPayment(
@@ -37,5 +39,11 @@ export class PaymentService {
     const data = await this.listPaymentsUsecase.handle(query);
 
     return { count: data.length, data };
+  }
+
+  async getPaymentById(paymentId: string): Promise<IResponse<any>> {
+    const data = await this.getPaymentByIdUsecase.handle(paymentId);
+
+    return { data };
   }
 }

@@ -25,6 +25,11 @@ const TEN_MEGABYTES = 10 * ONE_MEGABYTE;
 export class PaymentController {
   constructor(private paymentService: PaymentService) {}
 
+  @Get(':paymentId')
+  getById(@Param('paymentId') paymentId: string) {
+    return this.paymentService.getPaymentById(paymentId);
+  }
+
   @Get()
   list(@Query() query: ListPaymentDto) {
     return this.paymentService.listPayments(query);
