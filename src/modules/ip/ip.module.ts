@@ -5,10 +5,17 @@ import { CreateIpUsecase } from './application/create-ip.usecase';
 import { DatabaseModule } from 'src/database/database.module';
 import { ListIpUsecase } from './application/list-ip.usecase';
 import { GetIpByIdUsecase } from './application/get-ip-by-id.usecase';
+import { DeleteIpByIdUsecase } from './application/delete-ip-by-id.usecase';
 
 @Module({
   imports: [DatabaseModule],
   controllers: [IpController],
-  providers: [IpService, CreateIpUsecase, ListIpUsecase, GetIpByIdUsecase],
+  providers: [
+    IpService,
+    CreateIpUsecase,
+    ListIpUsecase,
+    GetIpByIdUsecase,
+    DeleteIpByIdUsecase,
+  ],
 })
 export class IpModule {}

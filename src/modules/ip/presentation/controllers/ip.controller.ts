@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateIpDto } from '../../domain/dto/create-ip.dto';
 import { IpService } from '../services/ip.service';
 import { ListIpDto } from '../../domain/dto/list-ip.dto';
@@ -20,5 +28,10 @@ export class IpController {
   @Get()
   list(@Query() query: ListIpDto) {
     return this.ipService.listIp(query);
+  }
+
+  @Delete(':ipAddressId')
+  DeleteIpByIdUsecase(@Param('ipAddressId') ipAddressId: number) {
+    return this.ipService.deleteIpById(ipAddressId);
   }
 }
