@@ -10,6 +10,7 @@ import { AuthService } from './presentation/services/auth.service';
 import { AuthController } from './presentation/controllers/auth.controller';
 import { SignInEmailUsecase } from './application/usecases/sign-in-email.usecase';
 import { SignUpEmailUsecase } from './application/usecases/sign-up-email.usecase';
+import { UpdatePasswordUsecase } from './application/usecases/update-password.usecase';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { SignUpEmailUsecase } from './application/usecases/sign-up-email.usecase
     AuthService,
     SignInEmailUsecase,
     SignUpEmailUsecase,
+    UpdatePasswordUsecase,
   ],
   controllers: [AuthController],
 })
