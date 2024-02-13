@@ -4,10 +4,16 @@ import { ClientController } from './presentation/controllers/client.controller';
 import { ClientService } from './presentation/services/client.service';
 import { CreateClientUsecase } from './application/create-client. usecase';
 import { ListClientsUsecase } from './application/list-clients.usecase';
+import { GetClientByIdUsecase } from './application/get-client-by-id.usecase';
 
 @Module({
   imports: [DatabaseModule],
   controllers: [ClientController],
-  providers: [ClientService, CreateClientUsecase, ListClientsUsecase],
+  providers: [
+    ClientService,
+    CreateClientUsecase,
+    ListClientsUsecase,
+    GetClientByIdUsecase,
+  ],
 })
 export class ClientModule {}
