@@ -6,6 +6,8 @@ import { UploadReceiptUsecase } from '../../infrastructure/usecases/upload-recei
 import { ListPaymentsUsecase } from '../../infrastructure/usecases/list-payments.usecase';
 import { ListPaymentDto } from '../../domain/dto/list-payment.dto';
 import { GetPaymentByIdUsecase } from '../../infrastructure/usecases/get-payment-by-id.usecase';
+import { TogglePaymentValidityByIdUsecase } from '../../infrastructure/usecases/toggle-payment-validity-by-id.usecase';
+import { TogglePaymentValidityDto } from '../../domain/dto/toggle-payment-validity.dto';
 
 @Injectable()
 export class PaymentService {
@@ -14,6 +16,7 @@ export class PaymentService {
     private uploadReceiptUsecase: UploadReceiptUsecase,
     private listPaymentsUsecase: ListPaymentsUsecase,
     private getPaymentByIdUsecase: GetPaymentByIdUsecase,
+    private togglePaymentValidityByIdUsecase: TogglePaymentValidityByIdUsecase,
   ) {}
 
   async createPayment(
@@ -43,6 +46,18 @@ export class PaymentService {
 
   async getPaymentById(paymentId: string): Promise<IResponse<any>> {
     const data = await this.getPaymentByIdUsecase.handle(paymentId);
+
+    return { data };
+  }
+
+  async togglePaymentValidityById(
+    paymentId: string,
+    body: TogglePaymentValidityDto,
+  ): Promise<IResponse<any>> {
+    const data = await this.togglePaymentValidityByIdUsecase.handle(
+      paymentId,
+      body,
+    );
 
     return { data };
   }

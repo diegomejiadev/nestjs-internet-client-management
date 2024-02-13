@@ -16,6 +16,7 @@ import { CreatePaymentDto } from '../../domain/dto/create-payment-dto';
 import { PaymentService } from '../services/payment.service';
 import { ExistsPaymentGuard } from '../guards/exists-payment.guard';
 import { ListPaymentDto } from '../../domain/dto/list-payment.dto';
+import { TogglePaymentValidityDto } from '../../domain/dto/toggle-payment-validity.dto';
 
 const ONE_MEGABYTE = 1024 * 1024;
 const TWO_MEGABYTES = 2 * ONE_MEGABYTE;
@@ -33,6 +34,14 @@ export class PaymentController {
   @Get()
   list(@Query() query: ListPaymentDto) {
     return this.paymentService.listPayments(query);
+  }
+
+  @Patch('/validity/:paymentId')
+  toggleValidityById(
+    @Param('paymentId') paymentId: string,
+    @Body() body: TogglePaymentValidityDto,
+  ) {
+    return this.paymentService.togglePaymentValidityById(paymentId, body);
   }
 
   @Post('generate')

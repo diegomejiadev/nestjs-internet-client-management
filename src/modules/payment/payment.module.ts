@@ -7,6 +7,7 @@ import { DatabaseModule } from 'src/database/database.module';
 import { UploadReceiptUsecase } from './infrastructure/usecases/upload-receipt.usecase';
 import { ListPaymentsUsecase } from './infrastructure/usecases/list-payments.usecase';
 import { GetPaymentByIdUsecase } from './infrastructure/usecases/get-payment-by-id.usecase';
+import { TogglePaymentValidityByIdUsecase } from './infrastructure/usecases/toggle-payment-validity-by-id.usecase';
 
 @Module({
   imports: [DatabaseModule],
@@ -18,6 +19,7 @@ import { GetPaymentByIdUsecase } from './infrastructure/usecases/get-payment-by-
     UploadReceiptUsecase,
     ListPaymentsUsecase,
     GetPaymentByIdUsecase,
+    TogglePaymentValidityByIdUsecase,
   ],
 })
 export class PaymentModule {}
