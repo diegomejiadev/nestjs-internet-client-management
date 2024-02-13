@@ -70,7 +70,7 @@ model Receipt {
 
 model IpAdress {
   id                 Int      @id @default(autoincrement())
-  fullIp             String
+  fullIp             String   @unique
   firstPart          Int
   secondPart         Int
   range              Int
