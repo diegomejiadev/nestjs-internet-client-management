@@ -107,7 +107,7 @@ export class ListPaymentsUsecase {
       whereClient.name = { contains: query.clientName, mode: 'insensitive' };
 
     //* Hacemos el where de los recibos
-    if (query.hasReceipts) {
+    if (query?.hasReceipts != null) {
       if (query.hasReceipts == true) {
         whereReceipts = {
           ...whereReceipts,
