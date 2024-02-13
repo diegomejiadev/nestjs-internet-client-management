@@ -22,7 +22,7 @@ model Admin {
 }
 
 model Client {
-  id                 String     @id @default(uuid())
+  id                 String    @id @default(uuid())
   name               String
   lastName           String
   phone              String[]
@@ -30,7 +30,7 @@ model Client {
   referenceAddresses String[]
   paymentDay         Int
   payments           Payment[]
-  ipAddresses        IpAdress[]
+  anthenas           Anthena[]
 }
 
 // TODO Agregar historial de instalaciones
@@ -69,27 +69,34 @@ model Receipt {
 }
 
 model IpAdress {
-  id         Int       @id @default(autoincrement())
-  fullIp     String
-  firstPart  Int
-  secondPart Int
-  range      Int
-  tail       Int
-  anthena    Anthena   @relation(fields: [anthenaId], references: [id])
-  anthenaId  String
-  Client     Client?   @relation(fields: [clientId], references: [id])
-  clientId   String?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  deletedAt  DateTime?
+  id                 Int      @id @default(autoincrement())
+  fullIp             String
+  firstPart          Int
+  secondPart         Int
+  range              Int
+  tail               Int
+  predecessorAnthena Anthena? @relation("PredecessorAnthena")
+  parentAnthena      Anthena? @relation("ParentAnthena", fields: [parentAnthenaId], references: [id])
+  parentAnthenaId    String?  @unique
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 }
 
 model Anthena {
-  id        String     @id @default(uuid())
+  id        String    @id @default(uuid())
   name      String
   alias     String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-  IpAdress  IpAdress[]
+
+  mainIpAdressId Int?      @unique
+  mainIpAddress  IpAdress? @relation("PredecessorAnthena", fields: [mainIpAdressId], references: [id])
+
+  childrenIpAddresses IpAdress[] @relation("ParentAnthena")
+
+  Client   Client? @relation(fields: [clientId], references: [id])
+  clientId String?
 }

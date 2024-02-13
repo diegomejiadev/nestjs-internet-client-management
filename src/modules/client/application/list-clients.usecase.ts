@@ -24,7 +24,7 @@ export class ListClientsUsecase {
 
   private buildWhereQuery(query: ListClientDto) {
     const where: Prisma.ClientWhereInput = {};
-    let whereIpAdresses: Prisma.IpAdressListRelationFilter = {};
+    let whereAnthenas: Prisma.AnthenaListRelationFilter = {};
     let wherePayments: Prisma.PaymentListRelationFilter = {};
 
     //* El query por defecto
@@ -43,12 +43,23 @@ export class ListClientsUsecase {
 
     //* El query anidado de las IPs
     if (query.ipAddress) {
-      whereIpAdresses = {
-        ...whereIpAdresses,
+      whereAnthenas = {
+        ...whereAnthenas,
         some: {
-          fullIp: {
-            contains: query.ipAddress,
-          },
+          OR: [
+            {
+              mainIpAddress: {
+                fullIp: { contains: query.ipAddress },
+              },
+            },
+            {
+              childrenIpAddresses: {
+                some: {
+                  fullIp: { contains: query.ipAddress },
+                },
+              },
+            },
+          ],
         },
       };
     }
@@ -127,12 +138,11 @@ export class ListClientsUsecase {
       };
     }
 
-    return { where, whereIpAdresses, wherePayments };
+    return { where, whereAnthenas, wherePayments };
   }
 
   async handle(query?: ListClientDto) {
-    const { where, whereIpAdresses, wherePayments } =
-      this.buildWhereQuery(query);
+    const { where, whereAnthenas, wherePayments } = this.buildWhereQuery(query);
 
     return await this.prismaService.client.findMany({
       skip: getSkip(query),
@@ -143,7 +153,7 @@ export class ListClientsUsecase {
       },
       where: {
         ...where,
-        ipAddresses: { ...whereIpAdresses },
+        anthenas: { ...whereAnthenas },
         payments: { ...wherePayments },
       },
     });
