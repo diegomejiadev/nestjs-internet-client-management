@@ -25,7 +25,7 @@ export class ListClientsUsecase {
   }
 
   private buildWhereQuery(query: ListClientDto) {
-    const where: Prisma.ClientWhereInput = {};
+    let where: Prisma.ClientWhereInput = {};
     let whereAnthenas: Prisma.AnthenaListRelationFilter = {};
     let wherePayments: Prisma.PaymentListRelationFilter = {};
 
@@ -42,6 +42,17 @@ export class ListClientsUsecase {
       where.referenceAddresses = { has: query.referenceAddress };
     if (query.phone) where.phone = { has: query.phone };
     if (query.paymentDay) where.paymentDay = { equals: query.paymentDay };
+    if (query?.showRetired == true) {
+      where.isRetired = { equals: true };
+    } else {
+      where.isRetired = { equals: false };
+    }
+
+    if (query?.showSleeping == true) {
+      where.isSleeping = { equals: true };
+    } else {
+      where.isSleeping = { equals: false };
+    }
 
     //* El query anidado de las IPs
     if (query.ipAddress) {
@@ -67,7 +78,19 @@ export class ListClientsUsecase {
     }
 
     //* El query anidado de los pagos
-    if (query.hasMissingReceipts) {
+    if (query?.hasMissingReceipts == true) {
+      where = {
+        ...where,
+        AND: [
+          {
+            isSleeping: false,
+          },
+          {
+            isRetired: false,
+          },
+        ],
+      };
+
       if (
         query.hasMissingReceiptsEndDate &&
         query.hasMissingReceiptsStartDate

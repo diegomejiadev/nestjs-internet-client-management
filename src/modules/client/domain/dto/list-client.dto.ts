@@ -82,4 +82,22 @@ export class ListClientDto extends QueryDto {
   @IsNumber()
   @Type(() => Number)
   paymentDay?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return value;
+  })
+  showRetired: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return value;
+  })
+  showSleeping: boolean;
 }
