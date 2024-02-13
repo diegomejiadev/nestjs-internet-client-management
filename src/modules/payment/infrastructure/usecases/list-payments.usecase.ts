@@ -44,7 +44,7 @@ export class ListPaymentsUsecase {
   private getOrderQuery(query: ListPaymentDto): any {
     const orderType = query.order || 'desc';
 
-    if (!query.orderAttribute) return { updated_at: orderType };
+    if (!query.orderAttribute) return { updatedAt: orderType };
 
     switch (query.orderAttribute) {
       case PaymentOrderAttributeEnum.CREATED_AT:
