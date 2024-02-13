@@ -3,10 +3,11 @@ import { IpController } from './presentation/controllers/ip.controller';
 import { IpService } from './presentation/services/ip.service';
 import { CreateIpUsecase } from './application/create-ip.usecase';
 import { DatabaseModule } from 'src/database/database.module';
+import { ListIpUsecase } from './application/list-ip.usecase';
 
 @Module({
   imports: [DatabaseModule],
   controllers: [IpController],
-  providers: [IpService, CreateIpUsecase],
+  providers: [IpService, CreateIpUsecase, ListIpUsecase],
 })
 export class IpModule {}
