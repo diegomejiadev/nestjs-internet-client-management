@@ -7,6 +7,7 @@ import { ListClientsUsecase } from './application/list-clients.usecase';
 import { GetClientByIdUsecase } from './application/get-client-by-id.usecase';
 import { ToggleClientRetiredByIdUsecase } from './application/toggle-retired-client-by-id.usecase';
 import { ToggleClientSleepingByIdUsecase } from './application/toggle-sleeping-client-by-id.usecase';
+import { UpdateClientUsecase } from './application/update-client.usecase';
 
 @Module({
   imports: [DatabaseModule],
@@ -18,6 +19,7 @@ import { ToggleClientSleepingByIdUsecase } from './application/toggle-sleeping-c
     GetClientByIdUsecase,
     ToggleClientRetiredByIdUsecase,
     ToggleClientSleepingByIdUsecase,
+    UpdateClientUsecase,
   ],
 })
 export class ClientModule {}

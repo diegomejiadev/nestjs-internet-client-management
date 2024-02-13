@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { CreateClientDto } from '../../domain/dto/create-client.dto';
@@ -12,6 +13,7 @@ import { ClientService } from '../services/client.service';
 import { ListClientDto } from '../../domain/dto/list-client.dto';
 import { ToggleClientRetiredDto } from '../../domain/dto/toggle-retired-client.dto';
 import { ToggleClientSleepingDto } from '../../domain/dto/toggle-sleeping-client.dto';
+import { UpdateClientDto } from '../../domain/dto/update-client.dto';
 
 @Controller('client')
 export class ClientController {
@@ -46,5 +48,13 @@ export class ClientController {
     @Body() body: ToggleClientSleepingDto,
   ) {
     return this.clientService.toggleClientSleepingById(clientId, body);
+  }
+
+  @Put(':clientId')
+  updateClient(
+    @Body() body: UpdateClientDto,
+    @Param('clientId') clientId: string,
+  ) {
+    return this.clientService.updateClient(clientId, body);
   }
 }

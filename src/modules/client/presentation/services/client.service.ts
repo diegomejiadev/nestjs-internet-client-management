@@ -9,6 +9,8 @@ import { ToggleClientRetiredByIdUsecase } from '../../application/toggle-retired
 import { ToggleClientSleepingByIdUsecase } from '../../application/toggle-sleeping-client-by-id.usecase';
 import { ToggleClientRetiredDto } from '../../domain/dto/toggle-retired-client.dto';
 import { ToggleClientSleepingDto } from '../../domain/dto/toggle-sleeping-client.dto';
+import { UpdateClientUsecase } from '../../application/update-client.usecase';
+import { UpdateClientDto } from '../../domain/dto/update-client.dto';
 
 @Injectable()
 export class ClientService {
@@ -18,6 +20,7 @@ export class ClientService {
     private getClientByIdUsecase: GetClientByIdUsecase,
     private toggleClientRetiredByIdUsecase: ToggleClientRetiredByIdUsecase,
     private toggleClientSleepingByIdUsecase: ToggleClientSleepingByIdUsecase,
+    private updateClientUsecase: UpdateClientUsecase,
   ) {}
 
   async createClient(body: CreateClientDto): Promise<IResponse<any>> {
@@ -58,6 +61,12 @@ export class ClientService {
       clientId,
       body,
     );
+
+    return { data };
+  }
+
+  async updateClient(clientId: string, body: UpdateClientDto) {
+    const data = await this.updateClientUsecase.handle(clientId, body);
 
     return { data };
   }
