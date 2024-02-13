@@ -28,11 +28,11 @@ model Client {
   phone              String[]
   physicalAddress    String?
   referenceAddresses String[]
-  isActive           Boolean   @default(true)
+  isSleeping         Boolean   @default(true)
   isRetired          Boolean   @default(false)
   paymentDay         Int
-  payments           Payment[]
-  anthenas           Anthena[]
+  Payments           Payment[]
+  Anthenas           Anthena[]
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 

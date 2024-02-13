@@ -18,7 +18,7 @@ export class GetClientByIdUsecase {
         phone: true,
         physicalAddress: true,
         referenceAddresses: true,
-        anthenas: {
+        Anthenas: {
           select: {
             alias: true,
             name: true,
@@ -36,7 +36,7 @@ export class GetClientByIdUsecase {
             },
           },
         },
-        payments: {
+        Payments: {
           skip: 0,
           take: 5,
           orderBy: { updatedAt: 'desc' },

@@ -8,13 +8,15 @@ import { getSkip, getTake } from 'src/utils/dto';
 export class ListClientsUsecase {
   constructor(private prismaService: PrismaService) {}
 
-  private getSelectQuery() {
+  private getSelectQuery(): Prisma.ClientSelect {
     return {
       id: true,
       name: true,
       lastName: true,
       paymentDay: true,
       phone: true,
+      isSleeping: true,
+      isRetired: true,
     };
   }
 
@@ -153,8 +155,8 @@ export class ListClientsUsecase {
       },
       where: {
         ...where,
-        anthenas: { ...whereAnthenas },
-        payments: { ...wherePayments },
+        Anthenas: { ...whereAnthenas },
+        Payments: { ...wherePayments },
       },
     });
   }
