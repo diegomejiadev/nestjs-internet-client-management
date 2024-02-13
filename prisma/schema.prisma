@@ -77,7 +77,7 @@ model IpAdress {
   tail               Int
   predecessorAnthena Anthena? @relation("PredecessorAnthena")
   parentAnthena      Anthena? @relation("ParentAnthena", fields: [parentAnthenaId], references: [id])
-  parentAnthenaId    String?  @unique
+  parentAnthenaId    String?
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
