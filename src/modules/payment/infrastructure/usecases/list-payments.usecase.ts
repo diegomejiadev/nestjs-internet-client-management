@@ -13,6 +13,9 @@ export class ListPaymentsUsecase {
 
   private getSelectQuery() {
     return {
+      details: true,
+      clientId: true,
+      id: true,
       Client: {
         select: {
           id: true,
@@ -27,9 +30,7 @@ export class ListPaymentsUsecase {
           name: true,
         },
       },
-      details: true,
-      clientId: true,
-      id: true,
+
       Receipts: {
         select: {
           fileUrl: true,
