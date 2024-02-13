@@ -47,6 +47,7 @@ model Payment {
   Client         Client?      @relation(fields: [clientId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   clientId       String?
   SubPayments    SubPayment[]
+  isInvalid      Boolean      @default(false)
   Receipts       Receipt[]
   CreatorAdmin   Admin?       @relation(fields: [creatorAdminId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   creatorAdminId String?
@@ -57,14 +58,14 @@ model Payment {
 }
 
 model SubPayment {
-  id        String    @id @default(uuid())
-  startDate DateTime  @db.Date
-  endDate   DateTime  @db.Date
-  amount    Decimal   @db.Decimal(6, 2)
-  Payment   Payment?  @relation(fields: [paymentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  id        String   @id @default(uuid())
+  startDate DateTime @db.Date
+  endDate   DateTime @db.Date
+  amount    Decimal  @db.Decimal(6, 2)
+  Payment   Payment? @relation(fields: [paymentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   paymentId String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index(fields: [paymentId])
 }
@@ -91,18 +92,18 @@ model IpAdress {
   parentAnthena      Anthena? @relation("ParentAnthena", fields: [parentAnthenaId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   parentAnthenaId    String?
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index(fields: [fullIp, range, parentAnthenaId])
 }
 
 model Anthena {
-  id        String    @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
   alias     String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   mainIpAdressId Int?      @unique
   mainIpAddress  IpAdress? @relation("PredecessorAnthena", fields: [mainIpAdressId], references: [id], onDelete: SetNull, onUpdate: Cascade)
