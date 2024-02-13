@@ -5,6 +5,7 @@ import { CreateAnthenaUsecase } from './application/usecases/create-anthena.usec
 import { DatabaseModule } from 'src/database/database.module';
 import { ListAnthenaUsecase } from './application/usecases/list-anthena.usecase';
 import { GetAnthenaByIdUsecase } from './application/usecases/get-anthena-by-id.usecase';
+import { DeleteAnthenaByIdUsecase } from './application/usecases/delete-anthena-by-id.usecase';
 
 @Module({
   imports: [DatabaseModule],
@@ -14,6 +15,7 @@ import { GetAnthenaByIdUsecase } from './application/usecases/get-anthena-by-id.
     CreateAnthenaUsecase,
     ListAnthenaUsecase,
     GetAnthenaByIdUsecase,
+    DeleteAnthenaByIdUsecase,
   ],
 })
 export class AnthenaModule {}
