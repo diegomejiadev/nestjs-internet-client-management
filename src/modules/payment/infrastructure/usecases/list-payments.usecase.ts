@@ -16,6 +16,7 @@ export class ListPaymentsUsecase {
       details: true,
       clientId: true,
       id: true,
+      isValid: true,
       Client: {
         select: {
           id: true,
@@ -102,6 +103,12 @@ export class ListPaymentsUsecase {
     //* Hacemos el where base
     if (query.details)
       where.details = { contains: query.details, mode: 'insensitive' };
+
+    if (query?.showInvalid == true) {
+      where.isValid = { equals: false };
+    } else {
+      where.isValid = { equals: true };
+    }
 
     //* Hacemos el where del cliente
     if (query.clientLastName)

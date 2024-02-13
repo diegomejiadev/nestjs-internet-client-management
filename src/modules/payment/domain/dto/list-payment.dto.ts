@@ -46,4 +46,13 @@ export class ListPaymentDto extends QueryDto {
   @IsOptional()
   @IsString()
   details?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return value;
+  })
+  showInvalid: boolean;
 }
