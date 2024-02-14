@@ -7,10 +7,10 @@ export const createIpBody = (
   range: number;
   tail: number;
 } => {
-  const [firstPart, secondPart, range, tail] = ipAddress.split('.');
+  const [firstPart, secondPart, range, tail] = ipAddress.trim().split('.');
 
   return {
-    fullIp: ipAddress,
+    fullIp: ipAddress.trim(),
     firstPart: parseInt(firstPart),
     secondPart: parseInt(secondPart),
     range: parseInt(range),
