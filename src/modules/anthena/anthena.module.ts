@@ -6,9 +6,11 @@ import { DatabaseModule } from 'src/database/database.module';
 import { ListAnthenaUsecase } from './application/usecases/list-anthena.usecase';
 import { GetAnthenaByIdUsecase } from './application/usecases/get-anthena-by-id.usecase';
 import { DeleteAnthenaByIdUsecase } from './application/usecases/delete-anthena-by-id.usecase';
+import { UpdateAnthenaUsecase } from './application/usecases/update-anthena.usecase';
+import { IpModule } from '../ip/ip.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, IpModule],
   controllers: [AnthenaController],
   providers: [
     AnthenaService,
@@ -16,6 +18,7 @@ import { DeleteAnthenaByIdUsecase } from './application/usecases/delete-anthena-
     ListAnthenaUsecase,
     GetAnthenaByIdUsecase,
     DeleteAnthenaByIdUsecase,
+    UpdateAnthenaUsecase,
   ],
 })
 export class AnthenaModule {}

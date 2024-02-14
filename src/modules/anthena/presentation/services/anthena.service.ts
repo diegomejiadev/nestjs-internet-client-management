@@ -6,6 +6,8 @@ import { ListAnthenaUsecase } from '../../application/usecases/list-anthena.usec
 import { ListAnthenaDto } from '../../domain/dto/list-anthena.dto';
 import { GetAnthenaByIdUsecase } from '../../application/usecases/get-anthena-by-id.usecase';
 import { DeleteAnthenaByIdUsecase } from '../../application/usecases/delete-anthena-by-id.usecase';
+import { UpdateAnthenaUsecase } from '../../application/usecases/update-anthena.usecase';
+import { UpdateAnthenaDto } from '../../domain/dto/update-anthena.dto';
 
 @Injectable()
 export class AnthenaService {
@@ -14,6 +16,7 @@ export class AnthenaService {
     private listAnthenaUsecase: ListAnthenaUsecase,
     private getAnthenaByIdUsecase: GetAnthenaByIdUsecase,
     private deleteAnthenaByIdUsecase: DeleteAnthenaByIdUsecase,
+    private updateAnthenaUsecase: UpdateAnthenaUsecase,
   ) {}
 
   async createAnthena(body: CreateAnthenaDto): Promise<IResponse<any>> {
@@ -36,6 +39,15 @@ export class AnthenaService {
 
   async deleteAnthenaById(anthenaId: string): Promise<IResponse<boolean>> {
     const data = await this.deleteAnthenaByIdUsecase.handle(anthenaId);
+
+    return { data };
+  }
+
+  async updateAnthena(
+    anthenaId: string,
+    body: UpdateAnthenaDto,
+  ): Promise<IResponse<any>> {
+    const data = await this.updateAnthenaUsecase.handle(anthenaId, body);
 
     return { data };
   }
